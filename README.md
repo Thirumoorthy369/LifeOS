@@ -44,7 +44,7 @@ To list only top-level directories:
 git ls-tree -d HEAD --name-only
 ```
 
-To list all directories recursively:
+To list all directories recursively (040000 is the git object mode for directories):
 
 ```bash
 git ls-tree -r -t HEAD | grep '^040000' | cut -f2
@@ -66,15 +66,21 @@ To see status of all changed and untracked files:
 git status --short
 ```
 
-To list all files (both tracked and untracked):
+To list all files (tracked files followed by untracked files):
 
 ```bash
 git ls-files && git ls-files --others --exclude-standard
 ```
 
+Or to list only untracked files:
+
+```bash
+git ls-files --others --exclude-standard
+```
+
 ### Show Repository Structure
 
-To show a complete tree structure of the repository (requires `tree` utility):
+To show a complete tree structure of the repository (requires `tree` utility - install with `brew install tree` on macOS or `apt install tree` on Ubuntu):
 
 ```bash
 git ls-tree -r --name-only HEAD | tree --fromfile
