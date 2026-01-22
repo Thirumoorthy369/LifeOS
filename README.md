@@ -38,10 +38,16 @@ git ls-files <directory-path>
 
 ### List All Directories
 
-To list only directories:
+To list only top-level directories:
 
 ```bash
-git ls-tree -r -d HEAD --name-only
+git ls-tree -d HEAD --name-only
+```
+
+To list all directories recursively:
+
+```bash
+git ls-tree -r -t HEAD | grep '^040000' | cut -f2
 ```
 
 ### List All Files with Their Status
@@ -54,24 +60,36 @@ git status
 
 ### List All Files Including Untracked
 
-To list all files including untracked ones:
+To see status of all changed and untracked files:
 
 ```bash
 git status --short
 ```
 
+To list all files (both tracked and untracked):
+
+```bash
+git ls-files && git ls-files --others --exclude-standard
+```
+
 ### Show Repository Structure
 
-To show a complete tree structure of the repository:
+To show a complete tree structure of the repository (requires `tree` utility):
 
 ```bash
 git ls-tree -r --name-only HEAD | tree --fromfile
 ```
 
-Or use a simple alternative:
+Or use a simple alternative that works on all systems:
 
 ```bash
 find . -not -path './.git/*' | sort
+```
+
+Or to list only git-tracked files in a tree-like format:
+
+```bash
+git ls-tree -r --name-only HEAD | sed 's|[^/]*/| |g'
 ```
 
 ### List Files Modified in Last Commit
