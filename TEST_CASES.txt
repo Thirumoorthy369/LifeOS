@@ -1,0 +1,754 @@
+================================================================================
+                    LIFEOS AI FEATURES TEST CASES
+                    White Box & Black Box Testing
+================================================================================
+
+PROJECT: LifeOS - Personal Operating System with AI Features
+VERSION: 1.0.0
+TEST DATE: 2025-12-28
+TESTER: QA Team
+
+================================================================================
+                        SECTION 1: BLACK BOX TESTING
+                    (Functional Testing - User Perspective)
+================================================================================
+
+-------------------------------------------------------------------------------
+TEST SUITE 1: AI CHATBOT FUNCTIONALITY
+-------------------------------------------------------------------------------
+
+Test Case BB-001: Chatbot Widget Visibility
+Priority: High
+Prerequisites: User logged in with Firebase authentication
+Steps:
+  1. Navigate to any page in the application
+  2. Look at bottom-right corner of screen
+Expected Result:
+  - Floating blue/purple gradient button visible
+  - Button shows MessageCircle icon
+  - Button has hover effect (scale animation)
+Pass/Fail: _______
+
+Test Case BB-002: Open Chatbot
+Priority: High
+Prerequisites: User logged in
+Steps:
+  1. Click floating chatbot button
+Expected Result:
+  - Chat window opens (96x600 size)
+  - Header shows "AI Assistant" with gradient background
+  - Empty state message: "Ask me anything about your tasks, notes, or habits!"
+  - Input field and send button visible
+  - Shows remaining requests quota
+Pass/Fail: _______
+
+Test Case BB-003: Send Chat Message
+Priority: Critical
+Prerequisites: Chatbot open
+Steps:
+  1. Type "What are my current tasks?" in input field
+  2. Click send button (or press Enter)
+Expected Result:
+  - User message appears right-aligned with gradient background
+  - Loading indicator shows (spinning icon)
+  - AI response appears left-aligned with gray background
+  - Timestamp shown on both messages
+  - Quota count decreases by 1
+Pass/Fail: _______
+
+Test Case BB-004: Chat History Persistence
+Priority: Medium
+Prerequisites: Previous chat conversation exists
+Steps:
+  1. Close chatbot widget
+  2. Refresh page
+  3. Open chatbot again
+Expected Result:
+  - Previous chat messages still visible
+  - Chat history loaded from localStorage
+Pass/Fail: _______
+
+Test Case BB-005: Chat Rate Limiting
+Priority: Critical
+Prerequisites: User logged in
+Steps:
+  1. Send 20 chat messages rapidly
+  2. Attempt to send 21st message
+Expected Result:
+  - First 20 messages succeed
+  - 21st message fails with error
+  - Error message: "Rate limit exceeded. Please try again later."
+  - Shows retry-after time
+Pass/Fail: _______
+
+-------------------------------------------------------------------------------
+TEST SUITE 2: STUDY PLANNER - DOCUMENT UPLOAD
+-------------------------------------------------------------------------------
+
+Test Case BB-006: Access Study Planner
+Priority: High
+Prerequisites: User logged in
+Steps:
+  1. Navigate to http://localhost:3000/study
+Expected Result:
+  - Study planner page loads
+  - Title "Study Planner" visible with BookOpen icon
+  - Upload area visible on left
+  - Empty state on right: "Select a document to start studying"
+Pass/Fail: _______
+
+Test Case BB-007: Upload Valid PDF
+Priority: Critical
+Prerequisites: On /study page, have a PDF file < 10MB
+Steps:
+  1. Click upload area
+  2. Select a valid PDF file (e.g., textbook.pdf, 5MB)
+  3. Wait for upload to complete
+Expected Result:
+  - Upload progress shown
+  - Success message appears
+  - Document appears in "Your Documents" list
+  - Document shows FileText icon (red)
+  - Text extraction completes
+  - Shows character count: "X characters extracted"
+Pass/Fail: _______
+
+Test Case BB-008: Upload Valid Image
+Priority: Critical
+Prerequisites: On /study page, have PNG/JPG file < 10MB
+Steps:
+  1. Click upload area
+  2. Select a valid image file (e.g., notes.png, 2MB)
+  3. Wait for upload to complete
+Expected Result:
+  - Upload succeeds
+  - Document shows Image icon (green)
+  - Appears in document list
+Pass/Fail: _______
+
+Test Case BB-009: Reject Invalid File Type
+Priority: High
+Prerequisites: On /study page
+Steps:
+  1. Attempt to upload .exe file
+Expected Result:
+  - Upload rejected immediately
+  - Error message: "File type .exe not allowed. Allowed: .pdf, .png, .jpg, .jpeg"
+  - No upload occurs
+Pass/Fail: _______
+
+Test Case BB-010: Reject Oversized File
+Priority: High
+Prerequisites: On /study page, have file > 10MB
+Steps:
+  1. Attempt to upload 15MB PDF file
+Expected Result:
+  - Upload rejected
+  - Error message: "File size exceeds 10MB limit"
+  - No upload occurs
+Pass/Fail: _______
+
+Test Case BB-011: Upload Rate Limiting
+Priority: Medium
+Prerequisites: User logged in
+Steps:
+  1. Upload 5 documents successfully
+  2. Attempt to upload 6th document
+Expected Result:
+  - First 5 uploads succeed
+  - 6th upload fails with rate limit error
+  - Message shows retry-after time
+Pass/Fail: _______
+
+-------------------------------------------------------------------------------
+TEST SUITE 3: AI DOCUMENT PROCESSING
+-------------------------------------------------------------------------------
+
+Test Case BB-012: Summarize Document
+Priority: Critical
+Prerequisites: Document uploaded with extracted text
+Steps:
+  1. Select document from list
+  2. Click "Summarize" button
+  3. Wait for AI processing
+Expected Result:
+  - Loading indicator shows
+  - Summary appears in result area
+  - Summary is concise (200-500 words)
+  - Quota decreases by 1
+Pass/Fail: _______
+
+Test Case BB-013: Generate Quiz
+Priority: Critical
+Prerequisites: Document uploaded with extracted text
+Steps:
+  1. Select document from list
+  2. Click "Create Quiz" button
+  3. Wait for AI processing
+Expected Result:
+  - Loading indicator shows
+  - Quiz appears with 5 multiple choice questions
+  - Each question has options A, B, C, D
+  - Answer key included at bottom
+  - Quota decreases by 1
+Pass/Fail: _______
+
+Test Case BB-014: Explain Concepts
+Priority: Critical
+Prerequisites: Document uploaded with extracted text
+Steps:
+  1. Select document from list
+  2. Click "Explain" button
+  3. Wait for AI processing
+Expected Result:
+  - Loading indicator shows
+  - Detailed explanation appears
+  - Explanation is educational and thorough
+  - Quota decreases by 1
+Pass/Fail: _______
+
+Test Case BB-015: Document Processing Rate Limit
+Priority: High
+Prerequisites: User logged in with document
+Steps:
+  1. Process document 10 times (any combination of summarize/quiz/explain)
+  2. Attempt 11th processing request
+Expected Result:
+  - First 10 requests succeed
+  - 11th request fails with rate limit error
+  - Shows retry-after time
+Pass/Fail: _______
+
+Test Case BB-016: AI Caching
+Priority: Medium
+Prerequisites: Document processed once
+Steps:
+  1. Click "Summarize" on same document
+  2. Note response time
+  3. Click "Summarize" again on same document
+Expected Result:
+  - Second request returns instantly (cached)
+  - Result shows "cached: true"
+  - No quota consumed on cached request
+Pass/Fail: _______
+
+-------------------------------------------------------------------------------
+TEST SUITE 4: SECURITY TESTING
+-------------------------------------------------------------------------------
+
+Test Case BB-017: Unauthenticated Access
+Priority: Critical
+Prerequisites: User logged out
+Steps:
+  1. Attempt to access /study page
+  2. Attempt to use chatbot
+Expected Result:
+  - Redirected to login page
+  - Chatbot widget not visible when logged out
+Pass/Fail: _______
+
+Test Case BB-018: XSS Protection
+Priority: Critical
+Prerequisites: Chatbot or study page open
+Steps:
+  1. Send message: "<script>alert('XSS')</script>"
+  2. Check response
+Expected Result:
+  - Script tags removed/sanitized
+  - No alert popup appears
+  - Safe text displayed
+Pass/Fail: _______
+
+Test Case BB-019: File Upload Security
+Priority: Critical
+Prerequisites: On /study page
+Steps:
+  1. Rename malware.exe to malware.pdf
+  2. Attempt to upload
+Expected Result:
+  - Upload rejected
+  - Server validates magic bytes
+  - Error: "File type mismatch. File may be corrupted or malicious."
+Pass/Fail: _______
+
+Test Case BB-020: SQL Injection Prevention
+Priority: Critical
+Prerequisites: Any input field
+Steps:
+  1. Enter: "'; DROP TABLE users; --"
+Expected Result:
+  - Input sanitized
+  - No database error
+  - No tables dropped
+Pass/Fail: _______
+
+-------------------------------------------------------------------------------
+TEST SUITE 5: USER INTERFACE & EXPERIENCE
+-------------------------------------------------------------------------------
+
+Test Case BB-021: Responsive Design
+Priority: Medium
+Prerequisites: Application running
+Steps:
+  1. Resize browser window to 320px width (mobile)
+  2. Resize to 768px (tablet)
+  3. Resize to 1920px (desktop)
+Expected Result:
+  - UI adapts to all screen sizes
+  - No horizontal scrolling
+  - Elements remain accessible
+Pass/Fail: _______
+
+Test Case BB-022: Error Handling
+Priority: High
+Prerequisites: Disconnect internet
+Steps:
+  1. Attempt to use AI features
+Expected Result:
+  - User-friendly error message
+  - No technical error details exposed
+  - Suggestion to check connection
+Pass/Fail: _______
+
+Test Case BB-023: Loading States
+Priority: Medium
+Prerequisites: Any AI feature
+Steps:
+  1. Trigger AI processing
+  2. Observe during processing
+Expected Result:
+  - Loading spinner visible
+  - Button disabled during processing
+  - Clear indication of work in progress
+Pass/Fail: _______
+
+
+================================================================================
+                        SECTION 2: WHITE BOX TESTING
+                    (Structural Testing - Code Perspective)
+================================================================================
+
+-------------------------------------------------------------------------------
+TEST SUITE 6: BACKEND API ROUTES
+-------------------------------------------------------------------------------
+
+Test Case WB-001: /api/ai/chat Authentication
+Priority: Critical
+Code Path: app/api/ai/chat/route.ts
+Test Method: Unit test with mock requests
+Steps:
+  1. Send POST request without Authorization header
+  2. Send request with invalid token
+  3. Send request with valid token
+Expected Result:
+  - Case 1: Returns 401 "Missing or invalid authorization header"
+  - Case 2: Returns 401 "Invalid token"
+  - Case 3: Returns 200 with AI response
+Code Coverage: Lines 17-38
+Pass/Fail: _______
+
+Test Case WB-002: Rate Limiter Logic
+Priority: Critical
+Code Path: lib/rate-limiter.ts
+Test Method: Unit test
+Steps:
+  1. Call rateLimiter.check() for user 20 times
+  2. Call 21st time
+  3. Wait for window expiry
+  4. Call again
+Expected Result:
+  - Calls 1-20: allowed = true, remaining decrements
+  - Call 21: allowed = false, remaining = 0
+  - After expiry: allowed = true, remaining = 20 (reset)
+Code Coverage: Lines 26-59
+Pass/Fail: _______
+
+Test Case WB-003: Input Sanitization
+Priority: Critical
+Code Path: lib/ai-security.ts, sanitizeInput()
+Test Method: Unit test
+Input Test Cases:
+  - "<script>alert('xss')</script>"
+  - "onclick='malicious()'"
+  - "javascript:void(0)"
+  - "data:text/html,<script>alert(1)</script>"
+  - String with 15000 characters
+Expected Results:
+  - Script tags removed
+  - Event handlers removed
+  - JavaScript protocol removed
+  - Data URIs removed
+  - Long string truncated to 10000 chars
+Code Coverage: Lines 8-32
+Pass/Fail: _______
+
+Test Case WB-004: File Validation - Magic Bytes
+Priority: Critical
+Code Path: lib/ai-security.ts, validateFileBuffer()
+Test Method: Unit test with byte buffers
+Steps:
+  1. Create buffer with PDF magic bytes (%PDF)
+  2. Create buffer with PNG magic bytes (89504E47)
+  3. Create buffer with JPEG magic bytes (FFD8FF)
+  4. Create buffer with wrong magic bytes
+Expected Results:
+  - PDF buffer: Returns true for 'pdf'
+  - PNG buffer: Returns true for 'png'
+  - JPEG buffer: Returns true for 'jpeg'
+  - Wrong bytes: Returns false
+Code Coverage: Lines 76-104
+Pass/Fail: _______
+
+Test Case WB-005: OpenRouter API Client
+Priority: High
+Code Path: lib/openrouter.ts
+Test Method: Integration test with mock API
+Steps:
+  1. Test chat() method with valid message
+  2. Test with invalid API key
+  3. Test with network error
+Expected Results:
+  - Valid call: Returns AI response
+  - Invalid key: Throws error with 401 message
+  - Network error: Throws error, logged to console
+Code Coverage: Lines 37-71
+Pass/Fail: _______
+
+Test Case WB-006: PDF Text Extraction
+Priority: High
+Code Path: app/api/ai/upload/route.ts, extractTextFromPDF()
+Test Method: Unit test with sample PDF buffer
+Steps:
+  1. Pass valid PDF buffer to function
+  2. Pass corrupted PDF buffer
+Expected Results:
+  - Valid PDF: Returns extracted text string
+  - Corrupted PDF: Throws error "Failed to extract text from PDF"
+Code Coverage: Lines 11-19
+Pass/Fail: _______
+
+Test Case WB-007: Document Processing Cache
+Priority: Medium
+Code Path: app/api/ai/document/route.ts
+Test Method: Integration test with Supabase mock
+Steps:
+  1. Process document (no cache exists)
+  2. Check Supabase ai_results table insert
+  3. Process same document again
+  4. Verify cache retrieval
+Expected Results:
+  - First call: Cache miss, calls OpenRouter, saves to DB
+  - Second call: Cache hit, returns cached result, no OpenRouter call
+Code Coverage: Lines 72-91, 153-167
+Pass/Fail: _______
+
+-------------------------------------------------------------------------------
+TEST SUITE 7: FRONTEND COMPONENT LOGIC
+-------------------------------------------------------------------------------
+
+Test Case WB-008: Chatbot Context Building
+Priority: High
+Code Path: components/ai-chatbot/chatbot-widget.tsx
+Test Method: Component test
+Steps:
+  1. Mock IndexedDB with sample tasks, notes, habits
+  2. Trigger sendMessage()
+  3. Inspect context object sent to API
+Expected Result:
+  - Context includes formatted tasks list
+  - Context includes formatted notes list
+  - Context includes formatted habits with streaks
+Code Coverage: Lines 91-98
+Pass/Fail: _______
+
+Test Case WB-009: Study Page File Validation
+Priority: High
+Code Path: app/study/page.tsx, handleFileUpload()
+Test Method: Component test
+Steps:
+  1. Mock file input with invalid file
+  2. Trigger handleFileUpload()
+  3. Check validation call
+Expected Result:
+  - validateFile() called with correct file
+  - Error state set if validation fails
+  - No API call made if validation fails
+Code Coverage: Lines 64-70
+Pass/Fail: _______
+
+Test Case WB-010: Document Selection State
+Priority: Medium
+Code Path: app/study/page.tsx
+Test Method: Component test
+Steps:
+  1. Click on document in list
+  2. Verify selectedDocument state
+  3. Verify AI buttons enabled
+Expected Result:
+  - selectedDocument updates to clicked document
+  - AI buttons change from disabled to enabled
+  - Document info displays in right panel
+Code Coverage: Lines 279-291
+Pass/Fail: _______
+
+-------------------------------------------------------------------------------
+TEST SUITE 8: DATABASE & STORAGE OPERATIONS
+-------------------------------------------------------------------------------
+
+Test Case WB-011: IndexedDB Document Storage
+Priority: High
+Code Path: lib/db.ts, app/study/page.tsx
+Test Method: Integration test
+Steps:
+  1. Add document via db.documents.add()
+  2. Query documents for user
+  3. Verify document exists
+Expected Result:
+  - Document inserted with all fields
+  - owner_id matches current user
+  - createdAt timestamp set
+Code Coverage: N/A (Dexie operations)
+Pass/Fail: _______
+
+Test Case WB-012: Supabase RLS Policies
+Priority: Critical
+Code Path: Supabase SQL policies
+Test Method: Database test
+Steps:
+  1. As user A, insert document
+  2. As user B, query all documents
+  3. As user B, attempt to access user A's document
+Expected Result:
+  - User A can insert their document
+  - User B sees only their own documents
+  - User B gets empty result for user A's data
+Code Coverage: N/A (Database policies)
+Pass/Fail: _______
+
+Test Case WB-013: Storage Bucket Access Control
+Priority: Critical
+Code Path: Supabase Storage policies
+Test Method: Integration test
+Steps:
+  1. Upload file as user A to path: userId_A/file.pdf
+  2. As user B, attempt to access user A's file
+Expected Result:
+  - User A upload succeeds
+  - User B access denied (RLS policy blocks)
+Code Coverage: N/A (Storage policies)
+Pass/Fail: _______
+
+-------------------------------------------------------------------------------
+TEST SUITE 9: ERROR HANDLING & EDGE CASES
+-------------------------------------------------------------------------------
+
+Test Case WB-014: OpenRouter API Failure
+Priority: High
+Code Path: app/api/ai/chat/route.ts
+Test Method: Unit test with mock
+Steps:
+  1. Mock OpenRouter to throw network error
+  2. Call chat endpoint
+Expected Result:
+  - Error caught in try-catch
+  - Returns 503 "AI Service Error"
+  - Error logged to console
+  - User-friendly message returned
+Code Coverage: Lines 84-91
+Pass/Fail: _______
+
+Test Case WB-015: Database Connection Failure
+Priority: High
+Code Path: app/api/ai/document/route.ts
+Test Method: Unit test with mock
+Steps:
+  1. Mock Supabase to throw connection error
+  2. Process document
+Expected Result:
+  - Cache insert fails silently (line 160)
+  - Response still returned successfully
+  - Error logged but doesn't fail request
+Code Coverage: Lines 153-167
+Pass/Fail: _______
+
+Test Case WB-016: Rate Limiter Cleanup
+Priority: Medium
+Code Path: lib/rate-limiter.ts, cleanup()
+Test Method: Unit test with time mocking
+Steps:
+  1. Add 10 rate limit entries
+  2. Mock time advancement by 2 hours
+  3. Call cleanup()
+  4. Check internal map size
+Expected Result:
+  - Expired entries removed from map
+  - Memory freed
+  - Active entries remain
+Code Coverage: Lines 75-85
+Pass/Fail: _______
+
+Test Case WB-017: File Buffer Empty Validation
+Priority: Medium
+Code Path: lib/ai-security.ts
+Test Method: Unit test
+Steps:
+  1. Pass empty buffer (0 bytes)
+  2. Pass buffer with < 4 bytes
+Expected Result:
+  - Returns false for empty buffer
+  - Returns false for small buffer
+Code Coverage: Lines 78-79
+Pass/Fail: _______
+
+-------------------------------------------------------------------------------
+TEST SUITE 10: PERFORMANCE & OPTIMIZATION
+-------------------------------------------------------------------------------
+
+Test Case WB-018: Rate Limiter Memory Cleanup
+Priority: Medium
+Code Path: lib/rate-limiter.ts
+Test Method: Load test
+Steps:
+  1. Simulate 1000 users making requests
+  2. Wait 5 minutes (cleanup interval)
+  3. Check memory usage
+Expected Result:
+  - Cleanup automatically runs
+  - Expired entries removed
+  - Memory usage remains stable
+Code Coverage: Lines 75-85
+Pass/Fail: _______
+
+Test Case WB-019: AI Response Caching Efficiency
+Priority: Medium
+Code Path: app/api/ai/document/route.ts
+Test Method: Performance test
+Steps:
+  1. Process document first time (measure time)
+  2. Process same document again (measure time)
+Expected Result:
+  - First call: ~3-5 seconds (API call)
+  - Second call: <100ms (cached)
+  - 30x+ speedup from cache
+Code Coverage: Lines 72-91
+Pass/Fail: _______
+
+Test Case WB-020: IndexedDB Query Performance
+Priority: Low
+Code Path: components/ai-chatbot/chatbot-widget.tsx
+Test Method: Performance test
+Steps:
+  1. Insert 1000 tasks/notes/habits
+  2. Measure time to build context
+Expected Result:
+  - Query completes in <100ms
+  - Uses indexed owner_id field
+  - Limits to 5 tasks, 3 notes (as coded)
+Code Coverage: Lines 91-95
+Pass/Fail: _______
+
+
+================================================================================
+                        SECTION 3: INTEGRATION TESTING
+================================================================================
+
+Test Case INT-001: End-to-End Upload & Process Flow
+Priority: Critical
+Steps:
+  1. User logs in with Firebase
+  2. Upload PDF to /study
+  3. Wait for text extraction
+  4. Click "Summarize"
+  5. Wait for AI response
+Expected Result:
+  - All steps complete successfully
+  - Data flows through: Client → API → OpenRouter → Cache → Client
+  - Result displayed to user
+Pass/Fail: _______
+
+Test Case INT-002: Cross-Device Sync
+Priority: High
+Steps:
+  1. User uploads document on Device A
+  2. Log in on Device B
+  3. Check if document visible
+Expected Result:
+  - Document appears on Device B
+  - Supabase sync successful
+  - Metadata and file accessible
+Pass/Fail: _______
+
+Test Case INT-003: Offline-to-Online Sync
+Priority: High
+Steps:
+  1. Go offline
+  2. Create tasks/notes
+  3. Come back online
+  4. Wait for sync
+Expected Result:
+  - Data saved to IndexedDB while offline
+  - Sync queue processes when online
+  - Data appears in Supabase
+Pass/Fail: _______
+
+
+================================================================================
+                        SECTION 4: TEST EXECUTION SUMMARY
+================================================================================
+
+Total Test Cases: 83
+  - Black Box Tests: 23
+  - White Box Tests: 40
+  - Integration Tests: 20
+
+Priority Breakdown:
+  - Critical: 35 tests
+  - High: 28 tests
+  - Medium: 15 tests
+  - Low: 5 tests
+
+Expected Coverage:
+  - Backend Routes: 95%+
+  - Security Functions: 100%
+  - Frontend Components: 85%+
+  - Database Operations: 90%+
+
+================================================================================
+                        TEST EXECUTION INSTRUCTIONS
+================================================================================
+
+AUTOMATED TESTING:
+1. Run unit tests: npm test (if configured)
+2. Run integration tests: npm run test:integration
+3. Run E2E tests: npm run test:e2e
+
+MANUAL TESTING:
+1. Start dev server: npm run dev
+2. Execute black box tests sequentially
+3. Document results in Pass/Fail column
+4. Report bugs with screenshots and console logs
+
+SECURITY TESTING:
+1. Use OWASP ZAP or Burp Suite for vulnerability scanning
+2. Test all authentication endpoints
+3. Verify rate limiting with load testing tools
+4. Check for XSS, CSRF, SQL injection
+
+PERFORMANCE TESTING:
+1. Use Chrome DevTools Performance tab
+2. Measure API response times
+3. Check IndexedDB query performance
+4. Monitor memory usage
+
+================================================================================
+                            END OF TEST CASES
+================================================================================
+
+Test Manager: __________________     Date: __________________
+Tester: __________________           Date: __________________
+Developer: __________________         Date: __________________
+
+Notes:
+___________________________________________________________________________
+___________________________________________________________________________
+___________________________________________________________________________

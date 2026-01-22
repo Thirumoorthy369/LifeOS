@@ -1,0 +1,602 @@
+================================================================================
+ENVIRONMENT VARIABLES SETUP GUIDE
+Step-by-Step Instructions for Firebase, Supabase, and OpenRouter
+================================================================================
+
+This guide will walk you through obtaining all necessary environment variables
+for your LifeOS application from Firebase, Supabase, and OpenRouter.
+
+================================================================================
+PART 1: FIREBASE SETUP
+================================================================================
+
+Step 1: Create a Firebase Project
+----------------------------------
+1. Go to https://console.firebase.google.com/
+2. Click "Add project" or "Create a project"
+3. Enter your project name (e.g., "LifeOS")
+4. Click "Continue"
+5. Choose whether to enable Google Analytics (optional)
+6. Click "Create project"
+7. Wait for the project to be created, then click "Continue"
+
+Step 2: Register Your Web App
+------------------------------
+1. In your Firebase project dashboard, click the Web icon (</>) to add a web app
+2. Enter an app nickname (e.g., "LifeOS Web App")
+3. Check "Also set up Firebase Hosting" if you want to use Firebase Hosting
+4. Click "Register app"
+5. You'll see a configuration object - KEEP THIS PAGE OPEN
+
+Step 3: Get Firebase Configuration Variables
+---------------------------------------------
+From the Firebase configuration object you see, copy these values:
+
+NEXT_PUBLIC_FIREBASE_API_KEY=<apiKey value>
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=<authDomain value>
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=<projectId value>
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=<storageBucket value>
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=<messagingSenderId value>
+NEXT_PUBLIC_FIREBASE_APP_ID=<appId value>
+NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=<measurementId value> (if Analytics enabled)
+
+NOTE: If you closed the page, you can find these again by:
+- Go to Project Settings (gear icon near "Project Overview")
+- Scroll down to "Your apps" section
+- Click on your web app
+- You'll see the config object with all values
+
+Step 4: Enable Authentication Methods (if needed)
+--------------------------------------------------
+1. In Firebase Console, click "Authentication" in the left sidebar
+2. Click "Get started" if it's your first time
+3. Go to the "Sign-in method" tab
+4. Enable the authentication methods you want to use:
+   - Email/Password
+   - Google
+   - GitHub
+   - etc.
+5. Follow the prompts to configure each method
+
+Step 5: Set up Firestore Database (if needed)
+----------------------------------------------
+1. In Firebase Console, click "Firestore Database" in the left sidebar
+2. Click "Create database"
+3. Choose "Start in production mode" or "Start in test mode"
+4. Select your Cloud Firestore location
+5. Click "Enable"
+
+================================================================================
+PART 2: SUPABASE SETUP
+================================================================================
+
+Step 1: Create a Supabase Project
+----------------------------------
+1. Go to https://supabase.com/
+2. Click "Start your project" or "Sign in"
+3. Sign in with GitHub (recommended) or email
+4. Click "New project"
+5. Select or create an organization
+6. Fill in the project details:
+   - Name: Enter your project name (e.g., "LifeOS")
+   - Database Password: Create a STRONG password (SAVE THIS!)
+   - Region: Choose the closest region to your users
+   - Pricing Plan: Select your plan (Free tier available)
+7. Click "Create new project"
+8. Wait for the project to be set up (this takes 1-2 minutes)
+
+Step 2: Get Supabase API Credentials
+-------------------------------------
+1. Once your project is ready, you'll be on the project dashboard
+2. Click on the "Settings" icon (gear) in the left sidebar
+3. Click on "API" under Project Settings
+4. You'll see the following information:
+
+NEXT_PUBLIC_SUPABASE_URL=<Project URL>
+   - Found under "Project URL" section
+   - Format: https://xxxxxxxxxxxx.supabase.co
+
+NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon public key>
+   - Found under "Project API keys" section
+   - Copy the "anon" "public" key
+   - This is a long string starting with "eyJ..."
+
+SUPABASE_SERVICE_ROLE_KEY=<service_role key> (KEEP THIS SECRET!)
+   - Found under "Project API keys" section
+   - Click "Reveal" next to "service_role" key
+   - Copy this key (starts with "eyJ...")
+   - ⚠️ WARNING: Never expose this in client-side code!
+
+Step 3: Get Database Connection String (if needed)
+---------------------------------------------------
+1. In Settings > Database (not API)
+2. Scroll down to "Connection string"
+3. Select your preferred connection type:
+   - URI
+   - Session mode
+   - Transaction mode
+4. Copy the connection string
+
+SUPABASE_DB_URL=<connection string>
+   - Replace [YOUR-PASSWORD] with the database password from Step 1
+   - Format: postgresql://postgres:[YOUR-PASSWORD]@db.xxxx.supabase.co:5432/postgres
+
+Step 4: Set up Authentication (if needed)
+------------------------------------------
+1. Click "Authentication" in the left sidebar
+2. Go to "Providers" tab
+3. Enable authentication providers you need:
+   - Email
+   - Google OAuth
+   - GitHub
+   - etc.
+4. For OAuth providers (Google, GitHub, etc.):
+   - Click on the provider
+   - Follow the instructions to get Client ID and Client Secret
+   - Enter the callback URL provided by Supabase
+
+Step 5: Create Database Tables (if needed)
+-------------------------------------------
+1. Click "SQL Editor" in the left sidebar
+2. Click "New query"
+3. Write your SQL to create tables
+4. Click "Run" to execute
+5. Alternatively, use the Table Editor for a visual interface
+
+================================================================================
+PART 3: OPENROUTER SETUP
+================================================================================
+
+Step 1: Create an OpenRouter Account
+-------------------------------------
+1. Go to https://openrouter.ai/
+2. Click "Sign In" in the top right
+3. Sign up with:
+   - Google account, OR
+   - Email and password
+4. Verify your email if required
+5. Complete the registration process
+
+Step 2: Add Credits to Your Account
+------------------------------------
+1. After logging in, click on your profile icon (top right)
+2. Click "Credits" or "Billing"
+3. Click "Add Credits" or "Purchase Credits"
+4. Choose your credit amount
+5. Complete the payment process
+6. Wait for credits to be added to your account
+
+NOTE: Some free tier or trial credits might be available for new users.
+Check the OpenRouter website for current promotions.
+
+Step 3: Generate an API Key
+----------------------------
+1. Click on your profile icon (top right)
+2. Click "API Keys" or "Keys"
+3. Click "Create Key" or "New API Key"
+4. Give your API key a name (e.g., "LifeOS Development")
+5. Set any limits if available (optional):
+   - Rate limits
+   - Credit limits
+   - Allowed models
+6. Click "Create" or "Generate"
+7. COPY THE API KEY IMMEDIATELY - you won't see it again!
+
+OPENROUTER_API_KEY=<your API key>
+   - Format: sk-or-v1-xxxxxxxxxxxxxxxxxxxxxxxxxxxx
+   - Starts with "sk-or-v1-"
+
+Step 4: Configure API Settings (Optional)
+------------------------------------------
+1. In the API Keys section, you can:
+   - Set spending limits per key
+   - Enable/disable specific models
+   - Set rate limits
+   - View usage statistics
+2. Adjust settings according to your needs
+
+Step 5: Test Your API Key (Optional)
+-------------------------------------
+1. Go to the OpenRouter playground or API documentation
+2. Select a model (e.g., "openai/gpt-3.5-turbo")
+3. Enter your API key
+4. Send a test request
+5. Verify that you receive a response
+
+================================================================================
+PART 4: CREATING YOUR .ENV FILE
+================================================================================
+
+Step 1: Locate or Create .env File
+-----------------------------------
+1. In your project root directory (D:\LifeOS), check if you have:
+   - .env.local (for Next.js)
+   - .env (general)
+   - .env.example (template)
+2. If you have .env.example, copy it and rename to .env or .env.local
+3. If not, create a new file named .env or .env.local
+
+Step 2: Add All Variables to .env
+----------------------------------
+Open your .env file and add all the variables you collected:
+
+# Firebase Configuration
+NEXT_PUBLIC_FIREBASE_API_KEY=your_firebase_api_key_here
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_project_id.firebaseapp.com
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_project_id.appspot.com
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
+NEXT_PUBLIC_FIREBASE_APP_ID=your_app_id
+NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=your_measurement_id
+
+# Supabase Configuration
+NEXT_PUBLIC_SUPABASE_URL=https://your_project_ref.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key_here
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key_here
+SUPABASE_DB_URL=postgresql://postgres:your_password@db.xxx.supabase.co:5432/postgres
+
+# OpenRouter Configuration
+OPENROUTER_API_KEY=sk-or-v1-your_api_key_here
+
+Step 3: Save and Secure Your .env File
+---------------------------------------
+1. Save the .env file
+2. Make sure .env is listed in your .gitignore file
+3. NEVER commit .env to version control
+4. NEVER share your .env file publicly
+5. Keep a secure backup of your credentials
+
+Step 4: Restart Your Development Server
+----------------------------------------
+1. If your dev server is running, stop it (Ctrl+C)
+2. Restart the server (e.g., npm run dev, yarn dev)
+3. The new environment variables should now be loaded
+
+================================================================================
+SECURITY BEST PRACTICES
+================================================================================
+
+✅ DO:
+- Keep your .env file in .gitignore
+- Use different API keys for development and production
+- Rotate API keys regularly
+- Use service role keys only in server-side code
+- Set up rate limits and spending limits
+- Monitor your API usage regularly
+- Use environment-specific .env files (.env.local, .env.production)
+
+❌ DON'T:
+- Commit .env files to Git
+- Share API keys publicly or in screenshots
+- Use production keys in development
+- Expose service role keys in client-side code
+- Hard-code credentials in your source code
+- Share your .env file in chat or email
+
+================================================================================
+TROUBLESHOOTING
+================================================================================
+
+Issue: "Environment variables not loading"
+Solution:
+- Make sure the .env file is in the project root
+- Restart your dev server after changes
+- For Next.js, use NEXT_PUBLIC_ prefix for client-side variables
+- Check for typos in variable names
+
+Issue: "Firebase Authentication not working"
+Solution:
+- Verify you enabled the auth method in Firebase Console
+- Check that all Firebase config values are correct
+- Ensure your domain is authorized in Firebase settings
+
+Issue: "Supabase connection failed"
+Solution:
+- Verify your Supabase URL and keys are correct
+- Check that your Supabase project is active
+- Ensure your IP is not blocked (check Supabase settings)
+
+Issue: "OpenRouter API errors"
+Solution:
+- Verify your API key is correct and active
+- Check that you have sufficient credits
+- Ensure the model you're using is available
+- Check API rate limits
+
+================================================================================
+ADDITIONAL RESOURCES
+================================================================================
+
+Firebase Documentation:
+https://firebase.google.com/docs/web/setup
+
+Supabase Documentation:
+https://supabase.com/docs
+
+OpenRouter Documentation:
+https://openrouter.ai/docs
+
+For questions or issues:
+- Check the official documentation
+- Search Stack Overflow
+- Check GitHub issues for each service
+- Contact support for each service
+
+================================================================================
+PART 5: BACKEND-SPECIFIC ENVIRONMENT VARIABLES
+================================================================================
+
+✅ YES, your .env configuration is comprehensive and well-structured!
+
+Your environment variables are properly separated into:
+- Frontend (NEXT_PUBLIC_*) - Safe to expose to client
+- Backend secrets - Should NEVER be exposed to frontend
+
+Below are the specific instructions for obtaining the backend secrets you asked about:
+
+--------------------------------------------------------------------------------
+5.1: FIREBASE ADMIN SDK CREDENTIALS
+--------------------------------------------------------------------------------
+
+These credentials are for server-side Firebase operations (e.g., verifying tokens,
+accessing Firestore with admin privileges, managing users).
+
+Step 1: Navigate to Service Accounts
+-------------------------------------
+1. Go to Firebase Console: https://console.firebase.google.com/
+2. Select your project
+3. Click the gear icon (⚙️) next to "Project Overview"
+4. Click "Project settings"
+5. Go to the "Service accounts" tab
+
+Step 2: Generate Private Key
+-----------------------------
+1. You'll see a section titled "Firebase Admin SDK"
+2. Click the button "Generate new private key"
+3. A warning popup will appear - click "Generate key"
+4. A JSON file will be downloaded to your computer
+5. ⚠️ KEEP THIS FILE SECURE - it contains sensitive credentials!
+
+Step 3: Extract the Values from JSON
+-------------------------------------
+Open the downloaded JSON file. It will look like this:
+
+{
+  "type": "service_account",
+  "project_id": "your-project-id",
+  "private_key_id": "...",
+  "private_key": "-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-xxxxx@your-project-id.iam.gserviceaccount.com",
+  "client_id": "...",
+  ...
+}
+
+Extract these two values:
+
+FIREBASE_ADMIN_CLIENT_EMAIL=<value from "client_email" field>
+   - Example: firebase-adminsdk-abc123@your-project.iam.gserviceaccount.com
+
+FIREBASE_ADMIN_PRIVATE_KEY="<value from "private_key" field>"
+   - Copy the ENTIRE value including -----BEGIN PRIVATE KEY----- and -----END PRIVATE KEY-----
+   - Keep the \n characters - they represent newlines
+   - Wrap in quotes: "-----BEGIN PRIVATE KEY-----\nYOUR_KEY\n-----END PRIVATE KEY-----\n"
+
+⚠️ IMPORTANT: 
+- Store the JSON file securely (do NOT commit to Git)
+- The private key should be wrapped in double quotes in your .env file
+- Do not modify the \n characters - they are important!
+
+Alternative Method - Using the Entire JSON:
+-------------------------------------------
+Instead of extracting individual fields, you can store the entire JSON:
+
+FIREBASE_SERVICE_ACCOUNT_JSON='{"type":"service_account",...}'
+
+Then in your code, parse it: JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_JSON)
+
+--------------------------------------------------------------------------------
+5.2: SUPABASE SERVICE ROLE KEY & JWT SECRET
+--------------------------------------------------------------------------------
+
+Step 1: Get Service Role Key
+-----------------------------
+1. Go to your Supabase project dashboard: https://supabase.com/dashboard
+2. Select your project
+3. Click "Settings" (gear icon) in the left sidebar
+4. Click "API" under Project Settings
+5. Scroll to "Project API keys"
+6. Find the "service_role" key
+7. Click "Reveal" to show the key
+8. Copy the entire key
+
+SUPABASE_SERVICE_ROLE_KEY=<service_role key>
+   - Starts with: eyJ...
+   - This is a long JWT token
+   - ⚠️ CRITICAL: NEVER expose this in client-side code!
+   - This bypasses Row Level Security (RLS) - use with extreme caution!
+
+Step 2: Get JWT Secret
+-----------------------
+1. In the same "API" settings page (from Step 1)
+2. Scroll down to "JWT Settings" section
+3. Find "JWT Secret"
+4. Copy the secret value
+
+SUPABASE_JWT_SECRET=<JWT secret>
+   - This is used to verify and sign JWT tokens
+   - Keep this absolutely private!
+   - Used for custom JWT token operations
+
+Alternative Location for JWT Secret:
+-------------------------------------
+1. Go to Settings > Database (not API)
+2. Scroll to "Connection Info" section
+3. Look for "JWT Secret" field
+4. Copy the value
+
+⚠️ SECURITY WARNING:
+The service_role key has FULL access to your database and bypasses ALL security rules.
+Only use it in trusted server-side environments. Never expose it to the browser!
+
+--------------------------------------------------------------------------------
+5.3: OPENROUTER API KEY & MODEL
+--------------------------------------------------------------------------------
+
+Step 1: Get API Key (Already Covered in Part 3)
+------------------------------------------------
+OPENROUTER_API_KEY=<your OpenRouter API key>
+   - Refer to PART 3 of this guide for detailed instructions
+   - Format: sk-or-v1-xxxxxxxxxxxxxxxxxxxxxxxxxx
+
+Step 2: Choose Your Model
+--------------------------
+OPENROUTER_MODEL=meta-llama/llama-3.1-8b-instruct:free
+   - This is a configuration choice, not something you "get"
+   - You can find available models at: https://openrouter.ai/models
+   - Free models have ":free" suffix
+   - Popular choices:
+     * meta-llama/llama-3.1-8b-instruct:free (Free)
+     * openai/gpt-3.5-turbo (Paid)
+     * anthropic/claude-3-haiku (Paid)
+     * google/gemini-pro (Paid)
+
+Step 3: Verify Model Availability
+----------------------------------
+1. Go to https://openrouter.ai/models
+2. Browse or search for your desired model
+3. Check:
+   - Model availability status
+   - Pricing (per 1M tokens)
+   - Context length
+   - Features/capabilities
+4. Copy the model ID exactly as shown
+
+--------------------------------------------------------------------------------
+5.4: SESSION CONFIGURATION
+--------------------------------------------------------------------------------
+
+SESSION_MAX_IDLE_TIME=3600
+   - This is a configuration value you define yourself
+   - Not obtained from any external service
+   - Value is in SECONDS
+   - 3600 seconds = 60 minutes = 1 hour
+   - Determines how long a user session stays active when idle
+   - Adjust based on your security requirements:
+     * Higher value = More convenient for users, less secure
+     * Lower value = More secure, users may need to re-authenticate more often
+
+Recommended Values:
+- Development: 3600 (1 hour) or 7200 (2 hours)
+- Production (Low security): 1800 (30 minutes)
+- Production (High security): 900 (15 minutes) or 600 (10 minutes)
+- Banking/Financial apps: 300 (5 minutes) or less
+
+--------------------------------------------------------------------------------
+5.5: COMPLETE .ENV FILE EXAMPLE WITH ALL VALUES
+--------------------------------------------------------------------------------
+
+Here's your complete .env structure with notes on where each value comes from:
+
+# ======================
+# FRONTEND (PUBLIC - Safe to expose to client)
+# ======================
+
+# Firebase (Public keys) - From Part 1
+NEXT_PUBLIC_FIREBASE_API_KEY=AIzaSyXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your-project-id.firebaseapp.com
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=your-project-id
+NEXT_PUBLIC_FIREBASE_APP_ID=1:123456789:web:abcdef123456
+
+# Supabase (Public keys) - From Part 2
+NEXT_PUBLIC_SUPABASE_URL=https://abcdefghijklmn.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSI...
+
+# ======================
+# BACKEND (SECRETS - NEVER EXPOSE TO FRONTEND)
+# ======================
+
+# Firebase Admin SDK - From Part 5.1 (Service Accounts)
+FIREBASE_ADMIN_CLIENT_EMAIL=firebase-adminsdk-xxxxx@your-project.iam.gserviceaccount.com
+FIREBASE_ADMIN_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC...\n-----END PRIVATE KEY-----\n"
+
+# Supabase Service Role - From Part 5.2 (API Settings)
+SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6InNlcnZpY2Vfcm9sZSJ9...
+SUPABASE_JWT_SECRET=your-super-secret-jwt-token-with-at-least-32-characters
+
+# OpenRouter AI - From Part 3 & Part 5.3
+OPENROUTER_API_KEY=sk-or-v1-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+OPENROUTER_MODEL=meta-llama/llama-3.1-8b-instruct:free
+
+# Session Config - From Part 5.4 (Your configuration choice)
+SESSION_MAX_IDLE_TIME=3600
+
+--------------------------------------------------------------------------------
+5.6: VERIFICATION CHECKLIST
+--------------------------------------------------------------------------------
+
+Before running your application, verify you have:
+
+[ ] ✅ All NEXT_PUBLIC_* variables are set (safe to expose to browser)
+[ ] ✅ Firebase Admin SDK credentials (client_email + private_key)
+[ ] ✅ Supabase service_role key (for backend operations)
+[ ] ✅ Supabase JWT secret (for token verification)
+[ ] ✅ OpenRouter API key (for AI features)
+[ ] ✅ OpenRouter model choice configured
+[ ] ✅ Session timeout configured appropriately
+[ ] ✅ .env file is in .gitignore
+[ ] ✅ No hardcoded secrets in source code
+[ ] ✅ Different keys for development vs production (if applicable)
+
+--------------------------------------------------------------------------------
+5.7: TESTING YOUR SETUP
+--------------------------------------------------------------------------------
+
+Test Firebase Admin SDK:
+1. Try initializing Firebase Admin in your backend code
+2. Attempt a simple operation (e.g., verify a token, read from Firestore)
+3. Check for authentication errors
+
+Test Supabase Connection:
+1. Make a server-side Supabase query using the service role key
+2. Verify it bypasses RLS policies
+3. Check database connectivity
+
+Test OpenRouter:
+1. Send a simple API request to OpenRouter
+2. Verify your credits are being used
+3. Check for proper model responses
+
+Test Session Management:
+1. Log in to your app
+2. Wait for SESSION_MAX_IDLE_TIME seconds
+3. Verify session expires as expected
+
+================================================================================
+QUICK REFERENCE SUMMARY
+================================================================================
+
+Variable Source                          | How to Get It
+-----------------------------------------|------------------------------------
+FIREBASE_ADMIN_CLIENT_EMAIL              | Firebase Console > Settings > 
+FIREBASE_ADMIN_PRIVATE_KEY               | Service Accounts > Generate Key
+                                         | (Downloads JSON file)
+-----------------------------------------|------------------------------------
+SUPABASE_SERVICE_ROLE_KEY                | Supabase Dashboard > Settings > 
+                                         | API > Project API keys > service_role
+-----------------------------------------|------------------------------------
+SUPABASE_JWT_SECRET                      | Supabase Dashboard > Settings > 
+                                         | API > JWT Settings
+-----------------------------------------|------------------------------------
+OPENROUTER_API_KEY                       | OpenRouter.ai > Profile > API Keys
+-----------------------------------------|------------------------------------
+OPENROUTER_MODEL                         | Your choice from openrouter.ai/models
+-----------------------------------------|------------------------------------
+SESSION_MAX_IDLE_TIME                    | Your choice (in seconds)
+-----------------------------------------|------------------------------------
+
+================================================================================
+END OF GUIDE
+================================================================================
+
+Last Updated: 2025-12-28
+Version: 2.0 (Added Backend Variables Guide)
